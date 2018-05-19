@@ -1,0 +1,26 @@
+{
+  "name": "event-management-rest-api",
+  "version": "1.0.0",
+  "description": "rest api for event-management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "start": "/*.js"
+  },
+  "dependencies": {
+    "express": "~4.0.0",
+    "mongoose": "~3.6.13",
+    "body-parser": "~1.0.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jsonwebtoken": "^8.2.1",
+    "mongodb": "^3.1.0-beta4",
+    "npm-watch": "^0.3.0"
+  }
+}
