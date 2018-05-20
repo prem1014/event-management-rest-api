@@ -10,12 +10,12 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;        // set our port
+var port = process.env.PORT || 8888;        // set our port
 
 // ROUTES FOR OUR API
 var routes = require('./routes/route');            // get an instance of the express Router
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+// test route to make sure everything is working (accessed at GET http://localhost:8888/api)
 //router.get('/', function(req, res) {
 //res.json({ message: 'hooray! welcome to our api!' });   
 //});
