@@ -7,9 +7,9 @@ var MongoClientInstance = mongoClient.getMongoClient();
 var connectionUrl = dbConnection.getConnectionUrl();
 
 module.exports = {
-    getRouter: function(router, token) {
+    getRouter: function(router, token, setAcceptsHeader) {
         router.route('/login')
-        .post((req, res) => {
+        .post(setAcceptsHeader, (req, res) => {
             MongoClientInstance.connect(connectionUrl, (err, client) => {
                 var dbName = client.db('nrf')
                 loginCrude.authenticateUser(req,dbName,(result) => {

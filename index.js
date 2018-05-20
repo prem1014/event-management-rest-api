@@ -24,13 +24,32 @@ var routes = require('./routes/route');            // get an instance of the exp
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
+
+function setAcceptsHeader(req, res, next) {
+  'use strict';
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+}
+
+app.options('*', function (req, res) {
+  'use strict';
+
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  res.status(200).end();
+});
+
 app.set('superSecret', 'secret token'); // secret variable
 var payload = {}
 var token = jwt.sign(payload, app.get('superSecret'), {
     expiresIn: 1440 // expires in 24 hours
 });
 
-var router = routes.getRoutes(token);
+var router = routes.getRoutes(token, setAcceptsHeader);
 // middleware to use for all requests
 router.use(function (req, res, next) {
   // check header or url parameters or post parameters for token
