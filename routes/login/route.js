@@ -11,7 +11,7 @@ module.exports = {
         router.route('/login')
         .post(setAcceptsHeader, (req, res) => {
             MongoClientInstance.connect(connectionUrl, (err, client) => {
-                var dbName = client.db('nrf')
+                var dbName = client.db('event-management')
                 loginCrude.authenticateUser(req,dbName,(result) => {
                     if(Object.keys(result).length > 0){
                         if(result[0].password !== req.body.password){

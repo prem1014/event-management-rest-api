@@ -10,7 +10,7 @@ module.exports = {
         router.route('/country')
         .get(setAcceptsHeader, (req, res) => {
             MongoClientInstance.connect(connectionUrl, (err, client) => {
-                var dbName = client.db('nrf')
+                var dbName = client.db('event-management')
                 locationCrude.getCountry(req, dbName, (result) => {
                     if(Object.keys(result).length > 0){
                         res.json(result);
@@ -25,7 +25,7 @@ module.exports = {
         .get(setAcceptsHeader, (req, res) => {
             MongoClientInstance.connect(connectionUrl, (err, client) => {
                 if(!err){
-                    var dbName = client.db('nrf');
+                    var dbName = client.db('event-management');
                     locationCrude.getStateByCountryId(req, dbName, (result) => {
                         if(Object.keys(result).length > 0){
                             res.json(result);
@@ -44,7 +44,7 @@ module.exports = {
         .get(setAcceptsHeader, (req, res) => {
             MongoClientInstance.connect(connectionUrl, (err, client) => {
                 if(!err){
-                    var dbName = client.db('nrf');
+                    var dbName = client.db('event-management');
                     locationCrude.getDistrictByStateId(req, dbName, (result) => {
                         if(Object.keys(result).length > 0){
                             res.json(result);

@@ -1,7 +1,7 @@
 module.exports = {
     getConnectionUrl: function () {
         /*var url = 'mongodb://localhost:27017/test';*/
-        var url = 'mongodb://nrf_db:nrf@ds141434.mlab.com:41434/nrf';
+        var url = 'mongodb://admin:admin@ds229690.mlab.com:29690/event-management';
         return url;
     }
 };
