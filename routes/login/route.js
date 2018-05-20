@@ -2,6 +2,7 @@
 var mongoClient = require('../../db/mongo-client');
 var dbConnection = require('../../db/db-connection');
 var loginCrude = require('../../app/login-crud/crud');
+var config = require('../../config.json')
 
 var MongoClientInstance = mongoClient.getMongoClient();
 var connectionUrl = dbConnection.getConnectionUrl();
@@ -11,7 +12,7 @@ module.exports = {
         router.route('/login')
         .post(setAcceptsHeader, (req, res) => {
             MongoClientInstance.connect(connectionUrl, (err, client) => {
-                var dbName = client.db('event-management')
+                var dbName = client.db(config.dbName)
                 loginCrude.authenticateUser(req,dbName,(result) => {
                     if(Object.keys(result).length > 0){
                         if(result[0].password !== req.body.password){
