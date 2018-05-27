@@ -38,10 +38,14 @@ module.exports = {
                                     res.json({ success: false, message: 'Authentication failed. Wrong password.' })
                                 }
                                 else {
+                                    console.log(result);
+                                    console.log(result[0]);
                                     const payload = {
+                                        
                                         user: {
                                             name: result[0].name,
-                                            role: result[0].role
+                                            role: result[0].role,
+                                            email: result[0]._id
                                         }
                                     }
                                     token.payload = payload;
