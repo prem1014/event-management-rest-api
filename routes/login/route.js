@@ -8,38 +8,58 @@ var MongoClientInstance = mongoClient.getMongoClient();
 var connectionUrl = dbConnection.getConnectionUrl();
 
 module.exports = {
-    getRouter: function(router, token, setAcceptsHeader) {
+    getRouter: function (router, token, setAcceptsHeader) {
         router.route('/login')
-        .post(setAcceptsHeader, (req, res) => {
-            MongoClientInstance.connect(connectionUrl, (err, client) => {
-                var dbName = client.db(config.dbName)
-                loginCrude.authenticateUser(req,dbName,(result) => {
-                    if(Object.keys(result).length > 0){
-                        if(result[0].password !== req.body.password){
-                            res.json({ success: false, message: 'Authentication failed. Wrong password.' })
-                        }
-                        else {
-                            const payload = {
-                                user: {
-                                    name: result[0].name,
-                                    role: result[0].role
-                                }
+            .post(setAcceptsHeader, (req, res) => {
+                MongoClientInstance.connect(connectionUrl, (err, client) => {
+                    var dbName = client.db(config.dbName)
+                    if (!req.body.isAuthReq) {
+                        loginCrude.saveNewUserDetails(req, dbName, (result) => {
+                            if (Object.keys(result).length > 0) {
+                                res.json({
+                                    success: true,
+                                    message: 'Registration completed. You can login now',
+                                    payload: result
+                                })
                             }
-                            token.payload = payload;
-                            res.json({
-                                success: true,
-                                message: 'Enjoy your token!',
-                                token: token,
-                                payload: payload
-                            })
-                        }
+                            else{
+                                res.json({
+                                    success: false,
+                                    message: 'Failed!! Please try again',
+                                    payload: result
+                                })
+                            }
+                        });
                     }
                     else {
-                        res.json({message: 'No reocrds found for this id'});
+                        loginCrude.authenticateUser(req, dbName, (result) => {
+                            if (Object.keys(result).length > 0) {
+                                if (result[0].password !== req.body.password) {
+                                    res.json({ success: false, message: 'Authentication failed. Wrong password.' })
+                                }
+                                else {
+                                    const payload = {
+                                        user: {
+                                            name: result[0].name,
+                                            role: result[0].role
+                                        }
+                                    }
+                                    token.payload = payload;
+                                    res.json({
+                                        success: true,
+                                        message: 'Enjoy your token!',
+                                        token: token,
+                                        payload: payload
+                                    })
+                                }
+                            }
+                            else {
+                                res.json({ message: 'No reocrds found for this id' });
+                            }
+                            //dbName.close();
+                        });
                     }
-                    //dbName.close();
-                });
-            })
-        });
+                })
+            });
     }
 }

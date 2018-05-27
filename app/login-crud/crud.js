@@ -1,17 +1,21 @@
 module.exports={
     saveNewUserDetails:function (req,db,callback) {
-        var collection = db.collection('userDetails');
+        var collection = db.collection('tbl-user-credentials');
         console.log(req.body);
         collection.insert(
             {
-                userName:req.body.userName,
-                _id:req.body._id,
+                name:req.body.name,
+                _id:req.body.email,
                 password:req.body.password,
-                mobileNo:req.body.mobileNo,
-                userRole:req.body.userRole
+                mobile:req.body.mobile,
+                role:req.body.role
             },
             function (err,result) {
-                callback(result)
+                callback({
+                    name: req.body.name,
+                    mobile:req.body.mobile,
+                    email: req.body.email
+                })
             }
         );
         return callback;
