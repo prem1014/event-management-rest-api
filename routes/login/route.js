@@ -35,7 +35,7 @@ module.exports = {
                         }
                     }
                     else {
-                        res.json('No reocrds found for this id');
+                        res.json({message: 'No reocrds found for this id'});
                     }
                     //dbName.close();
                 });
