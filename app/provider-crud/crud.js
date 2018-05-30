@@ -12,5 +12,16 @@ module.exports={
                 callback(err,{success: true})
             }
         );        
-    }    
+    },
+    getAllServices: function(req, db, callback) {
+        var collection = db.collection('services');
+        collection.find({}).toArray((err, services) => {
+            if(err){
+                callback({success: false, data: null});
+            }
+            else {
+                callback({success: true, data: services});
+            }
+        })
+    }
 }    
