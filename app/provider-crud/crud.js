@@ -1,6 +1,6 @@
 module.exports={
     saveServiceDetails:function (req,db,callback) {
-        var collection = db.collection('sevices');
+        var collection = db.collection('services');
         collection.insert({
                 _id: req.body.id,
                 name: req.body.name,
