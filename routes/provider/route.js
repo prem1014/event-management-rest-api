@@ -34,6 +34,20 @@ module.exports = {
                         }
                     })
                 });
-            })
+            });
+        router.route('/provider/:serviceId')
+            .get(setAcceptsHeader, (req, res) => {
+                MongoClientInstance.connect(connectionUrl, (err, client) => {
+                    var dbName = client.db('event-management')
+                    providerCrude.getServiceById(req, dbName, (result) => {
+                        if (result.success) {
+                            res.json(result);
+                        }
+                        else {
+                            res.json({ success: false, message: 'Something went wrong' })
+                        }
+                    })
+                });
+            })    
     }
 }    

@@ -23,5 +23,17 @@ module.exports={
                 callback({success: true, data: services});
             }
         })
+    },
+    getServiceById: function(req, db, callback) {
+        console.log(req.params.serviceId);
+        var collection = db.collection('services');
+        collection.find({_id: req.params.serviceId}).toArray(function (err, service) {
+            if(err){
+                callback({success: false, data: null});
+            }
+            else {
+                callback({success: true, data: service});
+            }
+        });
     }
 }    
