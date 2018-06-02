@@ -6,7 +6,12 @@ var MongoClientInstance = mongoClient.getMongoClient();
 var connectionUrl = dbConnection.getConnectionUrl();
 
 module.exports = {
-    getRouter: function(router, token, setAcceptsHeader) {
+    getRouter: function(router, token) {
+        function setAcceptsHeader(req, res, next) {
+            'use strict';
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            next();
+        }
         router.route('/search')
         .post(setAcceptsHeader, (req, res) => {
             MongoClientInstance.connect(connectionUrl, (err, client) => {

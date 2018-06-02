@@ -4,13 +4,14 @@ var providerCrude = require('../../app/provider-crud/crud');
 
 var MongoClientInstance = mongoClient.getMongoClient();
 var connectionUrl = dbConnection.getConnectionUrl();
+var config = require('../../config.json')
 
 module.exports = {
     getRouter: function (router, token, setAcceptsHeader) {
         router.route('/provider')
             .post(setAcceptsHeader, (req, res) => {
                 MongoClientInstance.connect(connectionUrl, (err, client) => {
-                    var dbName = client.db('event-management')
+                    var dbName = client.db(config.dbName)
                     providerCrude.saveServiceDetails(req, dbName, (err, result) => {
                         if (result.success) {
                             res.json({ success: true, message: 'Data Saved!' });
@@ -21,10 +22,10 @@ module.exports = {
                     })
                 })
             });
-        router.route('/provider')
+        router.route('/provider/:createdBy')
             .get(setAcceptsHeader, (req, res) => {
                 MongoClientInstance.connect(connectionUrl, (err, client) => {
-                    var dbName = client.db('event-management')
+                    var dbName = client.db(config.dbName)
                     providerCrude.getAllServices(req, dbName, (result) => {
                         if (result.success) {
                             res.json(result);
